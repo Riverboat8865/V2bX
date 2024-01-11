@@ -116,7 +116,7 @@ type Hysteria2Node struct {
 	ObfsPassword string `json:"obfs-password"`
 }
 
-type NaiveProxy struct {
+type NaiveProxyNode struct {
 	CommonNode
 	Network         string          `json:"network"`
 	NetworkSettings json.RawMessage `json:"network_settings"`
