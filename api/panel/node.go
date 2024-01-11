@@ -34,6 +34,7 @@ type NodeInfo struct {
 	Trojan      *TrojanNode
 	Hysteria    *HysteriaNode
 	Hysteria2   *Hysteria2Node
+	NaiveProxy  *NaiveProxyNode
 	Common      *CommonNode
 }
 
@@ -113,6 +114,12 @@ type Hysteria2Node struct {
 	DownMbps     int    `json:"down_mbps"`
 	ObfsType     string `json:"obfs"`
 	ObfsPassword string `json:"obfs-password"`
+}
+
+type NaiveProxy struct {
+	CommonNode
+	Network         string          `json:"network"`
+	NetworkSettings json.RawMessage `json:"network_settings"`
 }
 
 type RawDNS struct {
@@ -213,6 +220,20 @@ func (c *Client) GetNodeInfo() (node *NodeInfo, err error) {
 		cm = &rsp.CommonNode
 		node.Hysteria2 = rsp
 		node.Security = Tls
+	case "naive":
+		n := info.NaiveProxy
+		t := option.V2RayTransportOptions{
+			Type: n.Network,
+		}
+		t.Type = ""
+		in.Type = "naive"
+		in.NaiveProxyOptions = option.NaiveProxyInboundOptions{
+			ListenOptions: listen,
+			InboundTLSOptionsContainer: option.InboundTLSOptionsContainer{
+				TLS: &tls,
+			},
+			Transport: &t,
+		}
 	}
 
 	// parse rules and dns

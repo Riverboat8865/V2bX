@@ -54,6 +54,7 @@ func New(c *conf.ApiConfig) (*Client, error) {
 		"shadowsocks",
 		"hysteria",
 		"hysteria2",
+		"naive",
 		"vless":
 	default:
 		return nil, fmt.Errorf("unsupported Node type: %s", c.NodeType)

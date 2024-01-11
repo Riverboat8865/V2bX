@@ -77,6 +77,15 @@ func (b *Sing) AddUsers(p *core.AddUsersParams) (added int, err error) {
 			}
 		}
 		err = b.inbounds[p.Tag].(*inbound.Hysteria2).AddUsers(us)
+	case "naive":
+		us := make([]option.NaiveProxyUser, len(p.Users))
+		for i := range p.Users {
+			us[i] = option.NaiveProxyUser{
+				Name:     p.Users[i].Uuid,
+				Password: p.Users[i].Uuid,
+			}
+		}
+		err = b.inbounds[p.Tag].(*inbound.Trojan).AddUsers(us)
 	}
 	if err != nil {
 		return 0, err
