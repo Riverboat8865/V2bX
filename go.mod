@@ -229,3 +229,4 @@ require (
 )
 
 replace github.com/sagernet/sing-box v1.8.0 => github.com/wyx2685/sing-box_mod v0.0.0-20240107155604-00398168e6a9
+replace replace github.com/InazumaV/V2bX => /root/V2bX
