@@ -34,7 +34,7 @@ type NodeInfo struct {
 	Trojan      *TrojanNode
 	Hysteria    *HysteriaNode
 	Hysteria2   *Hysteria2Node
-	NaiveProxy  *NaiveProxyNode
+	Naive       *NaiveNode
 	Common      *CommonNode
 }
 
@@ -116,7 +116,7 @@ type Hysteria2Node struct {
 	ObfsPassword string `json:"obfs-password"`
 }
 
-type NaiveProxyNode struct {
+type NaiveNode struct {
 	CommonNode
 	Network         string          `json:"network"`
 	NetworkSettings json.RawMessage `json:"network_settings"`
@@ -221,13 +221,13 @@ func (c *Client) GetNodeInfo() (node *NodeInfo, err error) {
 		node.Hysteria2 = rsp
 		node.Security = Tls
 	case "naive":
-		rsp := &NaiveProxyNode{}
+		rsp := &NaiveNode{}
 		err = json.Unmarshal(r.Body(), rsp)
 		if err != nil {
 			return nil, fmt.Errorf("decode naive params error: %s", err)
 		}
 		cm = &rsp.CommonNode
-		node.NaiveProxy = rsp
+		node.Naive = rsp
 		node.Security = Tls
 	}
 

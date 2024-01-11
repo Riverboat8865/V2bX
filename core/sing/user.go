@@ -78,9 +78,9 @@ func (b *Sing) AddUsers(p *core.AddUsersParams) (added int, err error) {
 		}
 		err = b.inbounds[p.Tag].(*inbound.Hysteria2).AddUsers(us)
 	case "naive":
-		us := make([]option.NaiveProxyUser, len(p.Users))
+		us := make([]option.NaiveUser, len(p.Users))
 		for i := range p.Users {
-			us[i] = option.NaiveProxyUser{
+			us[i] = option.NaiveUser{
 				Name:     p.Users[i].Uuid,
 				Password: p.Users[i].Uuid,
 			}
@@ -127,7 +127,7 @@ func (b *Sing) DelUsers(users []panel.UserInfo, tag string) error {
 		case "hysteria2":
 			del = i.(*inbound.Hysteria2)
 		case "naive":
-			del = i.(*inbound.NaiveProxy)
+			del = i.(*inbound.Naive)
 		}
 	} else {
 		return errors.New("the inbound not found")
