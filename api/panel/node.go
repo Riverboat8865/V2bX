@@ -221,19 +221,14 @@ func (c *Client) GetNodeInfo() (node *NodeInfo, err error) {
 		node.Hysteria2 = rsp
 		node.Security = Tls
 	case "naive":
-		n := info.NaiveProxy
-		t := option.V2RayTransportOptions{
-			Type: n.Network,
+		rsp := &NaiveProxyNode{}
+		err = json.Unmarshal(r.Body(), rsp)
+		if err != nil {
+			return nil, fmt.Errorf("decode naive params error: %s", err)
 		}
-		t.Type = ""
-		in.Type = "naive"
-		in.NaiveProxyOptions = option.NaiveProxyInboundOptions{
-			ListenOptions: listen,
-			InboundTLSOptionsContainer: option.InboundTLSOptionsContainer{
-				TLS: &tls,
-			},
-			Transport: &t,
-		}
+		cm = &rsp.CommonNode
+		node.NaiveProxy = rsp
+		node.Security = Tls
 	}
 
 	// parse rules and dns
