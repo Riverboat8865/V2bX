@@ -85,7 +85,7 @@ func (b *Sing) AddUsers(p *core.AddUsersParams) (added int, err error) {
 				Password: p.Users[i].Uuid,
 			}
 		}
-		err = b.inbounds[p.Tag].(*inbound.Trojan).AddUsers(us)
+		err = b.inbounds[p.Tag].(*inbound.Naive).AddUsers(us)
 	}
 	if err != nil {
 		return 0, err
