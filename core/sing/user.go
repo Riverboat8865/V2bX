@@ -126,6 +126,8 @@ func (b *Sing) DelUsers(users []panel.UserInfo, tag string) error {
 			del = i.(*inbound.Hysteria)
 		case "hysteria2":
 			del = i.(*inbound.Hysteria2)
+		case "naive":
+			del = i.(*inbound.NaiveProxy)
 		}
 	} else {
 		return errors.New("the inbound not found")
